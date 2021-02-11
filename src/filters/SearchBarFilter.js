@@ -1,11 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SearchBar from 'material-ui-search-bar'
 import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+
+const styles = (theme) => ({
+  searchBar: {
+    margin: '0 auto'
+  }
+})
 
 const SearchBarFilter = (props) => {
-  const { field, onParametersChanged, parameters, ...rest } = props
+  const { classes, field, onParametersChanged, parameters, ...rest } = props
   const value = parameters[field] ? parameters[field] : ''
   const [query, setQuery] = useState(value)
+  useEffect(() => {
+    setQuery(value)
+  }, [value])
   return (
     <SearchBar
       value={query}
@@ -16,9 +26,7 @@ const SearchBarFilter = (props) => {
         filter[field] = query
         onParametersChanged(filter)
       }}
-      style={{
-        margin: '0 auto'
-      }}
+      className={classes.searchBar}
       {...rest}
     />
   )
@@ -34,4 +42,4 @@ SearchBarFilter.defaultProps = {
   parameters: {}
 }
 
-export default SearchBarFilter
+export default withStyles(styles)(SearchBarFilter)

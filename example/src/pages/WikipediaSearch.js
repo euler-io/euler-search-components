@@ -1,6 +1,7 @@
 import React from 'react'
 import { Breadcrumbs } from '@material-ui/core'
-import { SearchBarFilter, withQueryState } from 'euler-search-components'
+import { SearchBarFilter, QueryState } from 'euler-search-components'
+import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 
 const styles = (theme) => ({
@@ -10,13 +11,14 @@ const styles = (theme) => ({
 })
 
 const WikipediaSearch = (props) => {
-  const { classes } = props
+  const { classes, history, location } = props
+  const queryState = new QueryState(history, location)
+  const parameters = queryState.getParameters()
 
   const handleParametersChanged = (newParameters, refresh = true) => {
-    //if (refresh) {
-    //  queryState.updateQuery(location, newParameters)
-    //}
-    console.info(newParameters, refresh)
+    if (refresh) {
+      queryState.updateQuery(newParameters)
+    }
   }
 
   return (
@@ -27,6 +29,7 @@ const WikipediaSearch = (props) => {
       <div className={classes.searchArea}>
         <SearchBarFilter
           field='search'
+          parameters={parameters}
           onParametersChanged={handleParametersChanged}
         />
       </div>
@@ -35,4 +38,4 @@ const WikipediaSearch = (props) => {
   )
 }
 
-export default withQueryState(withStyles(styles)(WikipediaSearch))
+export default withRouter(withStyles(styles)(WikipediaSearch))

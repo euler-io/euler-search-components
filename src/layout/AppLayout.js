@@ -142,7 +142,7 @@ const AppLayout = (props) => {
         <Container maxWidth='xl' className={classes.container}>
           {props.children}
         </Container>
-        <Box pt={4}>{props.footer}</Box>
+        <Box pt={4}>{props.footer !== undefined && props.footer}</Box>
       </main>
     </div>
   )
@@ -150,7 +150,7 @@ const AppLayout = (props) => {
 
 AppLayout.propTypes = {
   menu: PropTypes.element.isRequired,
-  footer: PropTypes.element.isRequired,
+  footer: PropTypes.element,
   title: PropTypes.string
 }
 

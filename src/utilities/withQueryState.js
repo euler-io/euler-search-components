@@ -1,6 +1,6 @@
 import React from 'react'
 import invariant from 'tiny-invariant'
-import { RouterContext } from 'react-router'
+import { __RouterContext as RouterContext } from 'react-router'
 import QueryState from './QueryState'
 
 function withQueryState(Component) {

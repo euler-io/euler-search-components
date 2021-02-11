@@ -15,7 +15,7 @@ class QueryState {
   }
 
   updateQuery = (params) => {
-    const oldParams = this.getParams(this.location)
+    const oldParams = this.getParameters()
     params = {
       ...oldParams,
       ...params
