@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import SimpleResult from './SimpleResult'
 
 const styles = (theme) => ({
   searchResults: {
@@ -9,21 +10,25 @@ const styles = (theme) => ({
 })
 
 const _getItemElement = (r) => {
-  return <>{r}</>
+  return SimpleResult
 }
 
 const _decodeItem = (r) => {
   return r
 }
 
+const _encodeResults = (results) => {
+  return results
+}
+
 const ResultsList = (props) => {
-  const { results, classes, getItemElement, decodeItem } = props
+  const { classes, results, getItemElement, decodeItem, encodeResults } = props
   return (
     <div className={classes.searchResults}>
-      {results.map((r) => {
+      {encodeResults(results).map((r) => {
         const ResultElement = getItemElement(r)
         const item = decodeItem(r)
-        return <ResultElement key={r.id} result={item} />
+        return <ResultElement {...item} />
       })}
     </div>
   )
@@ -32,13 +37,15 @@ const ResultsList = (props) => {
 ResultsList.propTypes = {
   results: PropTypes.arrayOf(PropTypes.object),
   getItemElement: PropTypes.func,
-  decodeItem: PropTypes.func
+  decodeItem: PropTypes.func,
+  encodeResults: PropTypes.func
 }
 
 ResultsList.defaultProps = {
   results: [],
   getItemElement: _getItemElement,
-  decodeItem: _decodeItem
+  decodeItem: _decodeItem,
+  encodeResults: _encodeResults
 }
 
 export default withStyles(styles)(ResultsList)

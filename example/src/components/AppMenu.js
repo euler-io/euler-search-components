@@ -20,11 +20,11 @@ const EulerAppMenuItem = (props) => {
 const AppMenu = (props) => {
   return (
     <List>
-      <ListItemLink button to='/wikipedia'>
+      <ListItemLink button to='/archiveorg'>
         <ListItemIcon>
           <SearchIcon />
         </ListItemIcon>
-        <ListItemText primary='Wikipedia Search' />
+        <ListItemText primary='Archive.org Search' />
       </ListItemLink>
     </List>
   )
