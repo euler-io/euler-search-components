@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Breadcrumbs, Typography } from '@material-ui/core'
 import {
   SearchBarFilter,
@@ -7,7 +7,8 @@ import {
   ResultsList,
   ResultStatistics,
   ResultsPagination,
-  FiltersPopover
+  FiltersPopover,
+  useParametersEffect
 } from 'euler-search-components'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
@@ -42,13 +43,19 @@ const useStore = create((set) => ({
     }))
   },
   searchArchiveOrg: (parameters) => {
-    const { search, page, rows } = parameters
+    const { search, mediaType, page, rows } = parameters
     const API_URL = 'https://archive.org/advancedsearch.php'
+    let query = search
+    if (mediaType && Array.isArray(mediaType) && mediaType.length > 0) {
+      query += ` AND mediatype:(${mediaType.join(' OR ')})`
+    } else if (mediaType) {
+      query += ` AND mediatype:(${mediaType})`
+    }
     const params = {
       'fl[]': ['title', 'description', 'identifier'],
       rows: rows ? parseInt(rows) : 10,
       output: 'json',
-      q: `subject:${search}`,
+      q: query,
       page: page ? parseInt(page) + 1 : 1
     }
     set((state) => ({
@@ -100,15 +107,19 @@ const ArchiveOrgSearch = (props) => {
     loading
   } = useStore()
 
-  useEffect(() => {
-    const parameters = queryState.getParameters()
-    const { search } = parameters
-    if (search && search.trim()) {
-      searchArchiveOrg(parameters)
-    } else {
-      setResultsUndefined()
-    }
-  }, [parameters.search, parameters.page, parameters.rows])
+  useParametersEffect(
+    () => {
+      const parameters = queryState.getParameters()
+      const { search } = parameters
+      if (search && search.trim()) {
+        searchArchiveOrg(parameters)
+      } else {
+        setResultsUndefined()
+      }
+    },
+    parameters,
+    ['search', 'mediaType', 'page', 'rows']
+  )
 
   return (
     <div>
@@ -123,7 +134,9 @@ const ArchiveOrgSearch = (props) => {
         />
         <FiltersPopover
           filters={[{ field: 'mediaType', name: 'Media Type' }]}
-          onParametersChanged={handleParametersChanged}
+          onParametersChanged={(newParameters) => {
+            handleParametersChanged({ ...newParameters, ...parameters })
+          }}
         />
         <div>
           <OptionsFilter
@@ -131,7 +144,15 @@ const ArchiveOrgSearch = (props) => {
             field='mediaType'
             parameters={parameters}
             onParametersChanged={handleParametersChanged}
-            options={[{ value: 'books', title: 'Books' }]}
+            options={[
+              { value: 'account', label: 'Account' },
+              { value: 'audio', label: 'Audio' },
+              { value: 'data', label: 'Data' },
+              { value: 'image', label: 'Image' },
+              { value: 'movies', label: 'Movies' },
+              { value: 'text', label: 'Texts' },
+              { value: 'web', label: 'Web' }
+            ]}
           />
         </div>
       </div>

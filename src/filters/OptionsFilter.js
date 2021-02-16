@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   Chip,
@@ -10,15 +10,46 @@ import {
   ListItem,
   ListItemText,
   Checkbox,
-  DialogActions
+  DialogActions,
+  Divider,
+  FormControlLabel
 } from '@material-ui/core'
+import { toggleSelection, getLabel } from '../utilities'
 import { withStyles } from '@material-ui/core/styles'
 
-const _getValueIndicator = (values) => {
-  if (values === '') {
+const _getValueIndicator = (values, options) => {
+  if (values.length === 0 || (values.length === 1 && values[0] === '')) {
     return 'Any'
+  } else if (values.length < 3) {
+    return values.map((v) => getLabel(v, options)).join(', ')
+  } else if (values.length >= 3) {
+    return (
+      values
+        .slice(0, 2)
+        .map((v) => getLabel(v, options))
+        .join(', ') + '...'
+    )
+  } else {
+    return values
   }
-  return values
+}
+
+const getValues = (parameters, field) => {
+  const values = parameters[field]
+  if (values !== undefined && !Array.isArray(values)) {
+    return [values]
+  } else if (Array.isArray(values)) {
+    return values
+  } else {
+    return []
+  }
+}
+
+const defaultLabels = {
+  confirm: 'Confirm',
+  cancel: 'Cancel',
+  selectAll: 'All',
+  selectNone: 'None'
 }
 
 const styles = (theme) => ({
@@ -34,14 +65,28 @@ const OptionsFilter = (props) => {
     parameters,
     getValueIndicator,
     onParametersChanged,
-    confirmLabel,
-    cancelLabel
+    labels
   } = props
-  const values = parameters[field]
-  const valueIndicator = getValueIndicator(values)
-  const [open, setOpen] = useState(false)
+  const values = getValues(parameters, field)
+  const valueIndicator = getValueIndicator(values, options)
 
-  return values !== undefined ? (
+  const [state, setState] = useState({ open: false, selected: [] })
+  const setOpen = (open) => {
+    setState({ ...state, open })
+  }
+  const setSelected = (selected) => {
+    setState({ ...state, selected })
+  }
+  const { open, selected } = state
+
+  useEffect(() => {
+    setSelected(values)
+  }, [])
+
+  const allSelected = selected.length === options.length
+
+  const componentLabels = labels
+  return parameters[field] !== undefined ? (
     <Fragment>
       <Chip
         className={classes.chip}
@@ -50,24 +95,46 @@ const OptionsFilter = (props) => {
           const filter = {}
           filter[field] = undefined
           onParametersChanged(filter)
+          setSelected([])
         }}
         onClick={() => setOpen(true)}
       ></Chip>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>{name}</DialogTitle>
         <DialogContent>
+          <FormControlLabel
+            onClick={(evt) => {
+              if (allSelected) {
+                setSelected([])
+              } else {
+                setSelected(options.map((o) => o.value))
+              }
+            }}
+            control={
+              <Checkbox checked={allSelected} tabIndex={-1} disableRipple />
+            }
+            label={
+              allSelected
+                ? componentLabels.selectNone
+                : componentLabels.selectAll
+            }
+          />
+          <Divider />
           <List>
             {options.map((opt) => {
+              const checked = selected.indexOf(opt.value) !== -1
               return (
                 <ListItem
                   key={opt.value}
                   role={undefined}
                   dense
                   button
-                  onClick={(evt) => console.info('click')}
+                  onClick={(evt) => {
+                    setSelected(toggleSelection(opt.value, selected))
+                  }}
                 >
-                  <Checkbox checked={false} tabIndex={-1} disableRipple />
-                  <ListItemText primary={opt.title} />
+                  <Checkbox checked={checked} tabIndex={-1} disableRipple />
+                  <ListItemText primary={opt.label} />
                 </ListItem>
               )
             })}
@@ -75,14 +142,20 @@ const OptionsFilter = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)} color='primary'>
-            {cancelLabel}
+            {componentLabels.cancel}
           </Button>
           <Button
-            onClick={() => console.info('confirm')}
+            onClick={() => {
+              const selectedOpts = selected.filter((s) => s !== '').sort()
+              const filter = {}
+              filter[field] = selectedOpts.length ? selectedOpts : null
+              onParametersChanged(filter)
+              setOpen(false)
+            }}
             color='secondary'
             autoFocus
           >
-            {confirmLabel}
+            {componentLabels.confirm}
           </Button>
         </DialogActions>
       </Dialog>
@@ -99,16 +172,14 @@ OptionsFilter.propTypes = {
   onParametersChanged: PropTypes.func.isRequired,
   getValueIndicator: PropTypes.func,
   parameters: PropTypes.object,
-  cancelLabel: PropTypes.string,
-  confirmLabel: PropTypes.string
+  labels: PropTypes.object
 }
 
 OptionsFilter.defaultProps = {
   parameters: {},
   getValueIndicator: _getValueIndicator,
   options: [],
-  cancelLabel: 'Cancel',
-  confirmLabel: 'Confirm'
+  labels: defaultLabels
 }
 
 export default withStyles(styles)(OptionsFilter)

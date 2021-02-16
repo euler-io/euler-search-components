@@ -44,11 +44,7 @@ const styles = (theme) => ({
     }
   },
   thumbnail: {
-    marginRight: theme.spacing(2),
-    '& img': {
-      //minHeight: '124px',
-      //maxWidth: '180px'
-    }
+    marginRight: theme.spacing(2)
   }
 })
 

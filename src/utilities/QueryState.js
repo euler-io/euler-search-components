@@ -6,12 +6,20 @@ class QueryState {
     this.location = location
   }
 
-  getParameters = (defaultParameters = {}) => {
+  getParameters = (defaultParameters = {}, filterFn) => {
     const params = {
       ...defaultParameters,
       ...qs.parse(this.location.search.replace('?', ''))
     }
-    return params
+    if (filterFn !== undefined) {
+      return Object.fromEntries(
+        Object.entries(params).filter(function ([k, v]) {
+          return filterFn(k, v)
+        })
+      )
+    } else {
+      return params
+    }
   }
 
   updateQuery = (params, filterFn) => {

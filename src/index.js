@@ -3,6 +3,7 @@ import SearchBarFilter from './filters/SearchBarFilter'
 import FiltersPopover from './filters/FiltersPopover'
 import OptionsFilter from './filters/OptionsFilter'
 import QueryState from './utilities/QueryState'
+import { useParametersEffect } from './utilities'
 import ResultsList from './results/ResultsList'
 import ResultStatistics from './results/ResultStatistics'
 import ResultsPagination from './results/ResultsPagination'
@@ -13,6 +14,7 @@ export {
   OptionsFilter,
   FiltersPopover,
   QueryState,
+  useParametersEffect,
   ResultsList,
   ResultStatistics,
   ResultsPagination
