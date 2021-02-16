@@ -1,4 +1,4 @@
-import qs from 'querystring'
+import qs from 'qs'
 
 class QueryState {
   constructor(history, location) {
@@ -14,20 +14,23 @@ class QueryState {
     return params
   }
 
-  updateQuery = (params) => {
+  updateQuery = (params, filterFn) => {
     const oldParams = this.getParameters()
     params = {
       ...oldParams,
       ...params
     }
     if (oldParams !== params) {
-      const newPath = this.buildPath(params, this.location.pathname)
+      const newPath = this.buildPath(params, this.location.pathname, filterFn)
       this.history.push(newPath)
     }
   }
 
-  buildPath = (params, pathname) => {
-    const search = qs.stringify(params)
+  buildPath = (params, pathname, filterFn) => {
+    const search = qs.stringify(params, {
+      indices: false,
+      strictNullHandling: true
+    })
     return `${pathname}?${search}`
   }
 }

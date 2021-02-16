@@ -2,10 +2,12 @@ import React, { useEffect } from 'react'
 import { Breadcrumbs, Typography } from '@material-ui/core'
 import {
   SearchBarFilter,
+  OptionsFilter,
   QueryState,
   ResultsList,
   ResultStatistics,
-  ResultsPagination
+  ResultsPagination,
+  FiltersPopover
 } from 'euler-search-components'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
@@ -119,6 +121,19 @@ const ArchiveOrgSearch = (props) => {
           parameters={parameters}
           onParametersChanged={handleParametersChanged}
         />
+        <FiltersPopover
+          filters={[{ field: 'mediaType', name: 'Media Type' }]}
+          onParametersChanged={handleParametersChanged}
+        />
+        <div>
+          <OptionsFilter
+            name='Media Type'
+            field='mediaType'
+            parameters={parameters}
+            onParametersChanged={handleParametersChanged}
+            options={[{ value: 'books', title: 'Books' }]}
+          />
+        </div>
       </div>
       <div className={classes.searchResults}>
         <LoadingOverlay active={loading} spinner={true}>
