@@ -10,18 +10,19 @@
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
   },
   "dependencies": {
-    "axios": "^0.21.1",
     "euler-search-components": "file:..",
-    "fontsource-roboto": "^3.1.5",
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
-    "react-router-dom": "^5.2.0",
     "react-scripts": "file:../node_modules/react-scripts",
     "@material-ui/core": "file:../node_modules/@material-ui/core",
     "@material-ui/styles": "file:../node_modules/@material-ui/styles",
     "@material-ui/icons": "file:../node_modules/@material-ui/icons",
+    "axios": "^0.21.1",
+    "fontsource-roboto": "^3.1.5",
     "zustand": "^3.3.1",
-    "react-loading-overlay": "^1.0.1"
+    "react-router-dom": "^5.2.0",
+    "react-loading-overlay": "^1.0.1",
+    "@date-io/moment": "^2.10.8"
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3"

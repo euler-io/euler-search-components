@@ -3,6 +3,7 @@ import { Breadcrumbs, Typography } from '@material-ui/core'
 import {
   SearchBarFilter,
   OptionsFilter,
+  DateRangeFilter,
   QueryState,
   ResultsList,
   ResultStatistics,
@@ -133,7 +134,10 @@ const ArchiveOrgSearch = (props) => {
           onParametersChanged={handleParametersChanged}
         />
         <FiltersPopover
-          filters={[{ field: 'mediaType', name: 'Media Type' }]}
+          filters={[
+            { field: 'mediaType', name: 'Media Type' },
+            { field: 'date', name: 'Date' }
+          ]}
           onParametersChanged={(newParameters) => {
             handleParametersChanged({ ...newParameters, ...parameters })
           }}
@@ -153,6 +157,11 @@ const ArchiveOrgSearch = (props) => {
               { value: 'text', label: 'Texts' },
               { value: 'web', label: 'Web' }
             ]}
+          />
+          <DateRangeFilter
+            field='date'
+            parameters={parameters}
+            onParametersChanged={handleParametersChanged}
           />
         </div>
       </div>
