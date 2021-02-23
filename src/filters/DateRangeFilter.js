@@ -8,7 +8,7 @@ const DateRangeFilter = (props) => {
   const { parameters, field, onParametersChanged } = props
   return parameters[field] !== undefined ? (
     <Fragment>
-      <Chip
+      <Chip 
         onDelete={() => {
           const filter = {}
           filter[field] = undefined

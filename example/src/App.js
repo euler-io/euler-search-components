@@ -4,7 +4,7 @@ import { AppLayout } from 'euler-search-components'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import ArchiveOrgSearch from './pages/ArchiveOrgSearch'
 import AppMenu from './components/AppMenu'
-import 'euler-search-components/dist/index.css'
+//import 'euler-search-components/dist/index.css'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 
