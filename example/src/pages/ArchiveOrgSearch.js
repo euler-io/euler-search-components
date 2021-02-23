@@ -159,6 +159,7 @@ const ArchiveOrgSearch = (props) => {
             ]}
           />
           <DateRangeFilter
+            name='Date'
             field='date'
             parameters={parameters}
             onParametersChanged={handleParametersChanged}

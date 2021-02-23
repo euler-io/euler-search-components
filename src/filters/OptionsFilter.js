@@ -85,7 +85,7 @@ const OptionsFilter = (props) => {
 
   const allSelected = selected.length === options.length
 
-  const componentLabels = labels
+  const componentLabels = { ...defaultLabels, ...labels }
   return parameters[field] !== undefined ? (
     <Fragment>
       <Chip
