@@ -45,4 +45,15 @@ const useParametersEffect = (fn, parameters, arr) => {
   )
 }
 
-export { toggleSelection, getLabel, useParametersEffect }
+const getValues = (parameters, field) => {
+  const values = parameters[field]
+  if (values !== undefined && !Array.isArray(values)) {
+    return [values]
+  } else if (Array.isArray(values)) {
+    return values
+  } else {
+    return []
+  }
+}
+
+export { toggleSelection, getLabel, useParametersEffect, getValues }

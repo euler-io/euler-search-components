@@ -9,22 +9,85 @@ import {
   DialogActions,
   Button
 } from '@material-ui/core'
-const styles = (theme) => ({})
-import { KeyboardDatePicker } from '@material-ui/pickers'
+import { getValues } from '../utilities'
+import { KeyboardDatePicker, useUtils } from '@material-ui/pickers'
+
+const styles = (theme) => ({
+  date: {
+    margin: '0 auto',
+    padding: theme.spacing(2)
+  },
+  chip: {
+    margin: theme.spacing(0, 1, 0, 0)
+  }
+})
 
 const defaultLabels = {
   confirm: 'Confirm',
   cancel: 'Cancel',
-  anyDate: 'Any'
+  anyDate: 'Any',
+  start: 'Start',
+  end: 'End'
+}
+
+const INITIAL_REGEX = new RegExp('^>(\\d+)$')
+const FINAL_REGEX = new RegExp('^<(\\d+)$')
+
+const parseDateRangeParameters = (values) => {
+  if (values !== null) {
+    const initial = Math.min(
+      ...values
+        .map((v) => {
+          return INITIAL_REGEX.exec(v)
+        })
+        .filter((m) => m !== null && m !== undefined)
+        .map((m) => {
+          return parseInt(m[1])
+        })
+    )
+
+    const final = Math.max(
+      ...values
+        .map((v) => {
+          return FINAL_REGEX.exec(v)
+        })
+        .filter((m) => m !== null && m !== undefined)
+        .map((m) => {
+          return parseInt(m[1])
+        })
+    )
+
+    return {
+      initial:
+        initial !== undefined && initial !== Infinity
+          ? new Date(initial)
+          : null,
+      final: final !== undefined && final !== -Infinity ? new Date(final) : null
+    }
+  } else {
+    return { initial: null, final: null }
+  }
 }
 
 const DateRangeFilter = (props) => {
-  const { parameters, name, field, onParametersChanged, labels, format } = props
+  const {
+    parameters,
+    name,
+    field,
+    onParametersChanged,
+    labels,
+    format,
+    classes,
+    disableFuture
+  } = props
+
+  const values = getValues(parameters, field)
+  const parsedValues = parseDateRangeParameters(values)
 
   const [state, setState] = useState({
     open: false,
-    inital: new Date(),
-    final: new Date()
+    initial: null,
+    final: null
   })
   const setOpen = (open) => {
     setState({ ...state, open })
@@ -37,35 +100,101 @@ const DateRangeFilter = (props) => {
   }
   const { open, initial, final } = state
 
+  const handleOnParametersChanged = (initialDate, finalDate) => {
+    const dates = initialDate || finalDate ? [] : null
+    if (initialDate) {
+      dates.push(`>${initialDate.getTime()}`)
+    }
+    if (finalDate) {
+      dates.push(`<${finalDate.getTime()}`)
+    }
+    onParametersChanged({ [field]: dates })
+  }
+
+  const updateState = (_parameters, _field, _state) => {
+    const _values = getValues(_parameters, _field)
+    const _parsedValues = parseDateRangeParameters(_values)
+    setState({ ..._state, ..._parsedValues })
+  }
+
+  const openDialog = () => {
+    updateState(parameters, field, { ...state, open: true })
+  }
+
+  useEffect(() => {
+    updateState(parameters, field, state)
+  }, [])
+
   const componentLabels = { ...defaultLabels, ...labels }
   const label = `${name}: ${componentLabels.anyDate}`
 
+  const utils = useUtils()
+
   return parameters[field] !== undefined ? (
     <Fragment>
-      <Chip
-        label={label}
-        onDelete={() => {
-          const filter = {}
-          filter[field] = undefined
-          onParametersChanged(filter)
-        }}
-        onClick={() => setOpen(true)}
-      ></Chip>
+      {!parsedValues.initial && !parsedValues.final && (
+        <Chip
+          label={label}
+          onDelete={() => {
+            onParametersChanged({ [field]: undefined })
+          }}
+          onClick={openDialog}
+        ></Chip>
+      )}
+      {parsedValues.initial && (
+        <Chip
+          className={parsedValues.final ? classes.chip : null}
+          label={`${name} ${componentLabels.start}: ${utils.format(
+            utils.date(parsedValues.initial),
+            format
+          )}`}
+          onDelete={() => {
+            handleOnParametersChanged(null, final)
+          }}
+          onClick={openDialog}
+        ></Chip>
+      )}
+      {parsedValues.final && (
+        <Chip
+          label={`${name} ${componentLabels.end}: ${utils.format(
+            utils.date(parsedValues.final),
+            format
+          )}`}
+          onDelete={() => {
+            handleOnParametersChanged(initial, null)
+          }}
+          onClick={openDialog}
+        ></Chip>
+      )}
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>{name}</DialogTitle>
         <DialogContent>
-          <KeyboardDatePicker
-            placeholder={format}
-            value={initial}
-            onChange={(date) => setInitial(date)}
-            format={format}
-          />
-          <KeyboardDatePicker
-            placeholder={format}
-            value={final}
-            onChange={(date) => setFinal(date)}
-            format={format}
-          />
+          <div className={classes.date}>
+            <KeyboardDatePicker
+              placeholder={format}
+              value={initial}
+              onChange={(date) => {
+                setInitial(date ? new Date(date.unix() * 1000) : null)
+              }}
+              format={format}
+              disableFuture={disableFuture}
+              clearable
+              label={componentLabels.start}
+            />
+          </div>
+          <div className={classes.date}>
+            <KeyboardDatePicker
+              placeholder={format}
+              value={final}
+              onChange={(date) => {
+                setFinal(date ? new Date(date.unix() * 1000) : null)
+              }}
+              format={format}
+              disableFuture={disableFuture}
+              clearable
+              label={componentLabels.end}
+            />
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)} color='primary'>
@@ -73,6 +202,7 @@ const DateRangeFilter = (props) => {
           </Button>
           <Button
             onClick={() => {
+              handleOnParametersChanged(initial, final)
               setOpen(false)
             }}
             color='secondary'
@@ -94,13 +224,16 @@ DateRangeFilter.propTypes = {
   parameters: PropTypes.object,
   onParametersChanged: PropTypes.func.isRequired,
   labels: PropTypes.object,
-  format: PropTypes.string.isRequired
+  format: PropTypes.string.isRequired,
+  disableFuture: PropTypes.bool.isRequired
 }
 
 DateRangeFilter.defaultProps = {
   parameters: {},
   labels: defaultLabels,
-  format: 'yyyy/MM/dd'
+  format: 'yyyy/MM/DD',
+  disableFuture: true
 }
 
 export default withStyles(styles)(DateRangeFilter)
+export { parseDateRangeParameters }

@@ -14,7 +14,7 @@ import {
   Divider,
   FormControlLabel
 } from '@material-ui/core'
-import { toggleSelection, getLabel } from '../utilities'
+import { toggleSelection, getLabel, getValues } from '../utilities'
 import { withStyles } from '@material-ui/core/styles'
 
 const _getValueIndicator = (values, options) => {
@@ -31,17 +31,6 @@ const _getValueIndicator = (values, options) => {
     )
   } else {
     return values
-  }
-}
-
-const getValues = (parameters, field) => {
-  const values = parameters[field]
-  if (values !== undefined && !Array.isArray(values)) {
-    return [values]
-  } else if (Array.isArray(values)) {
-    return values
-  } else {
-    return []
   }
 }
 
@@ -92,9 +81,7 @@ const OptionsFilter = (props) => {
         className={classes.chip}
         label={`${name}: ${valueIndicator}`}
         onDelete={() => {
-          const filter = {}
-          filter[field] = undefined
-          onParametersChanged(filter)
+          onParametersChanged({ [field]: undefined })
           setSelected([])
         }}
         onClick={() => setOpen(true)}
@@ -147,9 +134,9 @@ const OptionsFilter = (props) => {
           <Button
             onClick={() => {
               const selectedOpts = selected.filter((s) => s !== '').sort()
-              const filter = {}
-              filter[field] = selectedOpts.length ? selectedOpts : null
-              onParametersChanged(filter)
+              onParametersChanged({
+                [field]: selectedOpts.length ? selectedOpts : null
+              })
               setOpen(false)
             }}
             color='secondary'

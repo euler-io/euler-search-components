@@ -9,7 +9,9 @@ import {
   ResultStatistics,
   ResultsPagination,
   FiltersPopover,
-  useParametersEffect
+  useParametersEffect,
+  parseDateRangeParameters,
+  getValues
 } from 'euler-search-components'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
@@ -44,13 +46,28 @@ const useStore = create((set) => ({
     }))
   },
   searchArchiveOrg: (parameters) => {
-    const { search, mediaType, page, rows } = parameters
+    const { search, mediaType, page, rows, date } = parameters
     const API_URL = 'https://archive.org/advancedsearch.php'
     let query = search
     if (mediaType && Array.isArray(mediaType) && mediaType.length > 0) {
       query += ` AND mediatype:(${mediaType.join(' OR ')})`
     } else if (mediaType) {
       query += ` AND mediatype:(${mediaType})`
+    }
+    if (date && date.length > 0) {
+      const dateValues = getValues(date)
+      const parsedDates = parseDateRangeParameters(dateValues)
+      let initial = new Date(parsedDates.initial)
+      let final = new Date(parsedDates.final)
+      if (!parsedDates.initial) {
+        initial = new Date(0)
+      }
+      if (!parsedDates.final) {
+        final = new Date()
+      }
+      const initialStr = `${initial.getFullYear()}-${initial.getMonth()}-${initial.getDay()}`
+      const finalStr = `${final.getFullYear()}-${final.getMonth()}-${final.getDay()}`
+      query += ` AND date:[${initialStr} TO ${finalStr}]`
     }
     const params = {
       'fl[]': ['title', 'description', 'identifier'],
@@ -119,7 +136,7 @@ const ArchiveOrgSearch = (props) => {
       }
     },
     parameters,
-    ['search', 'mediaType', 'page', 'rows']
+    ['search', 'mediaType', 'page', 'rows', 'date']
   )
 
   return (

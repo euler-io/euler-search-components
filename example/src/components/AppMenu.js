@@ -7,16 +7,6 @@ const ListItemLink = (props) => {
   return <ListItem component={Link} {...props} />
 }
 
-const EulerAppMenuItem = (props) => {
-  const { link, title, icon } = props
-  return (
-    <ListItemLink button to={link}>
-      {icon && <ListItemIcon>{icon}</ListItemIcon>}
-      <ListItemText primary={title} />
-    </ListItemLink>
-  )
-}
-
 const AppMenu = (props) => {
   return (
     <List>

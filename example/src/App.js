@@ -10,8 +10,8 @@ import MomentUtils from '@date-io/moment'
 
 const App = () => {
   return (
-    <Router>
-      <MuiPickersUtilsProvider utils={MomentUtils}>
+    <MuiPickersUtilsProvider utils={MomentUtils}>
+      <Router>
         <AppLayout title='Euler Search Components' menu={<AppMenu />}>
           <Switch>
             <Route exact path='/archiveorg'>
@@ -22,8 +22,8 @@ const App = () => {
             </Route>
           </Switch>
         </AppLayout>
-      </MuiPickersUtilsProvider>
-    </Router>
+      </Router>
+    </MuiPickersUtilsProvider>
   )
 }
 
