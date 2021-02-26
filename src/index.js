@@ -6,7 +6,7 @@ import DateRangeFilter, {
   parseDateRangeParameters
 } from './filters/DateRangeFilter'
 import QueryState from './utilities/QueryState'
-import { useParametersEffect, getValues } from './utilities'
+import { useParametersEffect, getValues, toArray } from './utilities'
 import ResultsList from './results/ResultsList'
 import ResultStatistics from './results/ResultStatistics'
 import ResultsPagination from './results/ResultsPagination'
@@ -19,6 +19,7 @@ export {
   FiltersPopover,
   QueryState,
   useParametersEffect,
+  toArray,
   getValues,
   parseDateRangeParameters,
   ResultsList,

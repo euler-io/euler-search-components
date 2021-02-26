@@ -45,8 +45,7 @@ const useParametersEffect = (fn, parameters, arr) => {
   )
 }
 
-const getValues = (parameters, field) => {
-  const values = parameters[field]
+const toArray = (values) => {
   if (values !== undefined && !Array.isArray(values)) {
     return [values]
   } else if (Array.isArray(values)) {
@@ -56,4 +55,9 @@ const getValues = (parameters, field) => {
   }
 }
 
-export { toggleSelection, getLabel, useParametersEffect, getValues }
+const getValues = (parameters, field) => {
+  const values = parameters[field]
+  return toArray(values)
+}
+
+export { toggleSelection, getLabel, useParametersEffect, getValues, toArray }

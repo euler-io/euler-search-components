@@ -11,7 +11,7 @@ import {
   FiltersPopover,
   useParametersEffect,
   parseDateRangeParameters,
-  getValues
+  toArray
 } from 'euler-search-components'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
@@ -55,15 +55,19 @@ const useStore = create((set) => ({
       query += ` AND mediatype:(${mediaType})`
     }
     if (date && date.length > 0) {
-      const dateValues = getValues(date)
+      const dateValues = toArray(date)
       const parsedDates = parseDateRangeParameters(dateValues)
-      let initial = new Date(parsedDates.initial)
-      let final = new Date(parsedDates.final)
-      if (!parsedDates.initial) {
-        initial = new Date(0)
+      let initial = null
+      let final = null
+      if (parsedDates.initial === null) {
+        initial = new Date(1900, 1, 1, 0, 0, 0)
+      } else {
+        initial = new Date(parsedDates.initial)
       }
-      if (!parsedDates.final) {
+      if (parsedDates.final === null) {
         final = new Date()
+      } else {
+        final = new Date(parsedDates.final)
       }
       const initialStr = `${initial.getFullYear()}-${initial.getMonth()}-${initial.getDay()}`
       const finalStr = `${final.getFullYear()}-${final.getMonth()}-${final.getDay()}`
