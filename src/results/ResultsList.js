@@ -28,7 +28,7 @@ const ResultsList = (props) => {
       {encodeResults(results).map((r) => {
         const ResultElement = getItemElement(r)
         const item = decodeItem(r)
-        return <ResultElement {...item} />
+        return <ResultElement key={item.key} {...item} />
       })}
     </div>
   )

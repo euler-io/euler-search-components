@@ -24,8 +24,6 @@ const getLabel = (value, options) => {
   const option = options.find((o) => o.value === value)
   if (option) {
     return option.label
-  } else {
-    return
   }
 }
 

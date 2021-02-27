@@ -139,7 +139,7 @@ const DateRangeFilter = (props) => {
             onParametersChanged({ [field]: undefined })
           }}
           onClick={openDialog}
-        ></Chip>
+        />
       )}
       {parsedValues.initial && (
         <Chip
@@ -152,7 +152,7 @@ const DateRangeFilter = (props) => {
             handleOnParametersChanged(null, final)
           }}
           onClick={openDialog}
-        ></Chip>
+        />
       )}
       {parsedValues.final && (
         <Chip
@@ -164,7 +164,7 @@ const DateRangeFilter = (props) => {
             handleOnParametersChanged(initial, null)
           }}
           onClick={openDialog}
-        ></Chip>
+        />
       )}
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>{name}</DialogTitle>

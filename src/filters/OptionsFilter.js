@@ -85,7 +85,7 @@ const OptionsFilter = (props) => {
           setSelected([])
         }}
         onClick={() => setOpen(true)}
-      ></Chip>
+      />
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>{name}</DialogTitle>
         <DialogContent>
