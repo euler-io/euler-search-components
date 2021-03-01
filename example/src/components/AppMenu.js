@@ -16,6 +16,18 @@ const AppMenu = (props) => {
         </ListItemIcon>
         <ListItemText primary='Archive.org Search' />
       </ListItemLink>
+      <ListItemLink button to='/archiveorgruntime'>
+        <ListItemIcon>
+          <SearchIcon />
+        </ListItemIcon>
+        <ListItemText primary='Archive.org Search (Runtime)' />
+      </ListItemLink>
+      <ListItemLink button to='/components/viewer/textviewer'>
+        <ListItemIcon>
+          <SearchIcon />
+        </ListItemIcon>
+        <ListItemText primary='TextViewer' />
+      </ListItemLink>
     </List>
   )
 }

@@ -10,6 +10,8 @@ import { useParametersEffect, getValues, toArray } from './utilities'
 import ResultsList from './results/ResultsList'
 import ResultStatistics from './results/ResultStatistics'
 import ResultsPagination from './results/ResultsPagination'
+import Search from './runtime/Search'
+import TextViewer from './viewers/TextViewer'
 
 export {
   AppLayout,
@@ -24,5 +26,7 @@ export {
   parseDateRangeParameters,
   ResultsList,
   ResultStatistics,
-  ResultsPagination
+  ResultsPagination,
+  Search,
+  TextViewer
 }

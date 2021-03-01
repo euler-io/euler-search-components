@@ -27,7 +27,6 @@ const SearchBarFilter = (props) => {
         onParametersChanged(filter)
       }}
       className={classes.searchBar}
-      {...rest}
     />
   )
 }
