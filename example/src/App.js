@@ -8,7 +8,6 @@ import ResultsListDemo from './pages/ResultsListDemo'
 import AppMenu from './components/AppMenu'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
-import TextViewerDemo from './pages/TextViewerDemo'
 
 const App = () => {
   return (
@@ -24,9 +23,6 @@ const App = () => {
             </Route>
             <Route exact path='/components/results/resultslist'>
               <ResultsListDemo />
-            </Route>
-            <Route exact path='/components/viewer/textviewer'>
-              <TextViewerDemo />
             </Route>
             <Route exact path='/'>
               <div>Home</div>

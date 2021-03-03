@@ -1,11 +1,9 @@
 import React from 'react'
-import { FiltersPopover } from '..'
+import FiltersPopover from '../filters/FiltersPopover'
 import PropTypes from 'prop-types'
-import Filters from './Filters'
 
 const FiltersPopoverRuntime = (props) => {
   const { onParametersChanged, filters, filtersComponents } = props
-  console.info(filtersComponents)
   const FiltersComponents = filtersComponents
   return (
     <div>
@@ -36,8 +34,7 @@ FiltersPopoverRuntime.propTypes = {
 }
 
 FiltersPopoverRuntime.defaultProps = {
-  filters: [],
-  filtersComponents: Filters
+  filters: []
 }
 
 export default FiltersPopoverRuntime

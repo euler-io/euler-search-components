@@ -1,8 +1,5 @@
 import React from 'react'
 import { LiveProvider, LivePreview, LiveEditor, LiveError } from 'react-live'
-import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search'
-import { withStyles } from '@material-ui/core/styles'
 import { ResultsList } from 'euler-search-components'
 
 const results = [

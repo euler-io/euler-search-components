@@ -1,5 +1,7 @@
 import React from 'react'
-import { SearchBarFilter, DateRangeFilter, OptionsFilter } from '..'
+import SearchBarFilter from '../filters/SearchBarFilter'
+import DateRangeFilter from '../filters/DateRangeFilter'
+import OptionsFilter from '../filters/OptionsFilter'
 import FiltersPopoverRuntime from './FiltersPopoverRuntime'
 
 const Filters = {
