@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Filters from './Filters'
 import Results from './Results'
 import ResultsList from '../results/ResultsList'
+import ResultsPagination from '../results/ResultsPagination'
 
 const styles = (theme) => ({
   searchFilters: {
@@ -35,7 +36,8 @@ const Search = (props) => {
     resultComponents,
     results,
     labels,
-    decodeItem
+    decodeItem,
+    total
   } = props
   const FiltersComponents = filtersComponents
   const componentLabels = { ...defaultLabels, ...labels }
@@ -60,17 +62,31 @@ const Search = (props) => {
         <div className={classes.searchResults}>
           {results !== null && results !== undefined ? (
             <React.Fragment>
+              <ResultsPagination
+                count={total}
+                parameters={parameters}
+                onParametersChanged={onParametersChanged}
+                rowsPerPageParameter='rows'
+                position='right'
+              />
               <ResultsList
                 decodeItem={decodeItem}
                 resultComponents={resultComponents}
                 results={results}
               />
+              <ResultsPagination
+                count={total}
+                parameters={parameters}
+                onParametersChanged={onParametersChanged}
+                rowsPerPageParameter='rows'
+                position='center'
+              />
             </React.Fragment>
           ) : (
-            <Typography color='textSecondary'>
-              {componentLabels.noResults}
-            </Typography>
-          )}
+              <Typography color='textSecondary'>
+                {componentLabels.noResults}
+              </Typography>
+            )}
         </div>
       </div>
     </div>
@@ -86,7 +102,8 @@ Search.propTypes = {
   results: PropTypes.arrayOf(PropTypes.object),
   resultComponents: PropTypes.func,
   decodeItem: PropTypes.func,
-  labels: PropTypes.object
+  labels: PropTypes.object,
+  total: PropTypes.number
 }
 
 Search.defaultProps = {
@@ -97,6 +114,7 @@ Search.defaultProps = {
   resultComponents: Results,
   decodeItem: _decodeItem,
   results: null,
-  labels: defaultLabels
+  labels: defaultLabels,
+  total: 0
 }
 export default withStyles(styles)(Search)

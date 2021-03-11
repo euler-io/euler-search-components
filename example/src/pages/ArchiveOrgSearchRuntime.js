@@ -86,6 +86,7 @@ const ArchiveOrgSearchRuntime = (props) => {
     <Search
       {...config}
       results={results}
+      total={total}
       parameters={parameters}
       onParametersChanged={handleParametersChanged}
       decodeItem={(i) => {
