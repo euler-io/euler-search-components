@@ -28,6 +28,7 @@ const Search = (props) => {
   const {
     title,
     filters,
+    parameters,
     classes,
     filtersComponents,
     onParametersChanged,
@@ -50,6 +51,7 @@ const Search = (props) => {
             <Component
               key={fIndex}
               {...f}
+              parameters={parameters}
               filtersComponents={filtersComponents}
               onParametersChanged={onParametersChanged}
             />
@@ -78,6 +80,7 @@ const Search = (props) => {
 Search.propTypes = {
   title: PropTypes.string.isRequired,
   onParametersChanged: PropTypes.func.isRequired,
+  parameters: PropTypes.arrayOf(PropTypes.object),
   filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   filtersComponents: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object),
@@ -89,6 +92,7 @@ Search.propTypes = {
 Search.defaultProps = {
   title: 'Euler Search',
   filters: [],
+  parameters: {},
   filtersComponents: Filters,
   resultComponents: Results,
   decodeItem: _decodeItem,

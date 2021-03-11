@@ -3,7 +3,7 @@ import FiltersPopover from '../filters/FiltersPopover'
 import PropTypes from 'prop-types'
 
 const FiltersPopoverRuntime = (props) => {
-  const { onParametersChanged, filters, filtersComponents } = props
+  const { onParametersChanged, filters, filtersComponents, parameters } = props
   const FiltersComponents = filtersComponents
   return (
     <div>
@@ -18,6 +18,7 @@ const FiltersPopoverRuntime = (props) => {
             <Component
               key={fIndex}
               {...f}
+              parameters={parameters}
               onParametersChanged={onParametersChanged}
             />
           )
@@ -29,12 +30,14 @@ const FiltersPopoverRuntime = (props) => {
 
 FiltersPopoverRuntime.propTypes = {
   onParametersChanged: PropTypes.func.isRequired,
+  parameters: PropTypes.arrayOf(PropTypes.object),
   filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   filtersComponents: PropTypes.func.isRequired
 }
 
 FiltersPopoverRuntime.defaultProps = {
-  filters: []
+  filters: [],
+  parameters: {}
 }
 
 export default FiltersPopoverRuntime
