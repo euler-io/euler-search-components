@@ -9,7 +9,7 @@ const styles = (theme) => ({
   }
 })
 
-const _getItemElement = (r) => {
+const _ResultComponents = (r) => {
   return SimpleResult
 }
 
@@ -22,13 +22,13 @@ const _encodeResults = (results) => {
 }
 
 const ResultsList = (props) => {
-  const { classes, results, getItemElement, decodeItem, encodeResults } = props
+  const { classes, results, resultComponents, decodeItem, encodeResults } = props
   return (
     <div className={classes.searchResults}>
       {encodeResults(results).map((r) => {
-        const ResultElement = getItemElement(r)
         const item = decodeItem(r)
-        return <ResultElement key={item.key} {...item} />
+        const ResultComponent = resultComponents(item)
+        return <ResultComponent key={item.key} {...item} />
       })}
     </div>
   )
@@ -36,14 +36,14 @@ const ResultsList = (props) => {
 
 ResultsList.propTypes = {
   results: PropTypes.arrayOf(PropTypes.object),
-  getItemElement: PropTypes.func,
+  resultComponents: PropTypes.func,
   decodeItem: PropTypes.func,
   encodeResults: PropTypes.func
 }
 
 ResultsList.defaultProps = {
   results: [],
-  getItemElement: _getItemElement,
+  resultComponents: _ResultComponents,
   decodeItem: _decodeItem,
   encodeResults: _encodeResults
 }

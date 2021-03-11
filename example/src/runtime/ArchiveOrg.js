@@ -4,6 +4,7 @@ import qs from 'querystring'
 
 const search = {
   title: 'Archive.org Search',
+  fields: ['search', 'mediaType', 'page', 'rows', 'date'],
   filters: [
     {
       type: 'text',

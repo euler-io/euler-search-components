@@ -1,5 +1,9 @@
 import React from 'react'
-import { QueryState, Search } from 'euler-search-components'
+import {
+  QueryState,
+  Search,
+  useParametersEffect
+} from 'euler-search-components'
 import ArchiveOrg, { searchArchiveOrg } from '../runtime/ArchiveOrg'
 import { withRouter } from 'react-router-dom'
 import create from 'zustand'
@@ -48,14 +52,52 @@ const useStore = create((set) => ({
 const ArchiveOrgSearchRuntime = (props) => {
   const { history, location } = props
   const queryState = new QueryState(history, location)
-  //const parameters = queryState.getParameters()
+  const parameters = queryState.getParameters()
+  const config = { ...ArchiveOrg }
 
   const handleParametersChanged = (newParameters) => {
     queryState.updateQuery({ ...newParameters })
   }
+  const {
+    results,
+    searchArchiveOrg,
+    setResultsUndefined,
+    total,
+    took,
+    query,
+    loading
+  } = useStore()
+
+  useParametersEffect(
+    () => {
+      const currParameters = queryState.getParameters()
+      const { search } = currParameters
+      if (search && search.trim()) {
+        searchArchiveOrg(currParameters)
+      } else {
+        setResultsUndefined()
+      }
+    },
+    parameters,
+    ['search', 'mediaType', 'page', 'rows', 'date']
+  )
 
   return (
-    <Search {...ArchiveOrg} onParametersChanged={handleParametersChanged} />
+    <Search
+      {...config}
+      results={results}
+      onParametersChanged={handleParametersChanged}
+      decodeItem={(i) => {
+        return {
+          key: i.identifier,
+          title: i.title,
+          type: 'simple',
+          description: i.description ? i.description : '',
+          thumbnail: `https://archive.org/services/img/${i.identifier}`,
+          link: `https://archive.org/details/${i.identifier}`
+        }
+      }}
+    />
   )
 }
 

@@ -1,8 +1,10 @@
 import React from 'react'
-import { Breadcrumbs } from '@material-ui/core'
+import { Breadcrumbs, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import Filters from './Filters'
+import Results from './Results'
+import ResultsList from '../results/ResultsList'
 
 const styles = (theme) => ({
   searchFilters: {
@@ -14,15 +16,28 @@ const styles = (theme) => ({
   }
 })
 
+const defaultLabels = {
+  noResults: 'No results to show.'
+}
+
+const _decodeItem = (r) => {
+  return r
+}
+
 const Search = (props) => {
   const {
     title,
     filters,
     classes,
     filtersComponents,
-    onParametersChanged
+    onParametersChanged,
+    resultComponents,
+    results,
+    labels,
+    decodeItem
   } = props
   const FiltersComponents = filtersComponents
+  const componentLabels = { ...defaultLabels, ...labels }
   return (
     <div>
       <Breadcrumbs aria-label='breadcrumb'>
@@ -40,6 +55,21 @@ const Search = (props) => {
             />
           )
         })}
+        <div className={classes.searchResults}>
+          {results !== null && results !== undefined ? (
+            <React.Fragment>
+              <ResultsList
+                decodeItem={decodeItem}
+                resultComponents={resultComponents}
+                results={results}
+              />
+            </React.Fragment>
+          ) : (
+            <Typography color='textSecondary'>
+              {componentLabels.noResults}
+            </Typography>
+          )}
+        </div>
       </div>
     </div>
   )
@@ -49,12 +79,20 @@ Search.propTypes = {
   title: PropTypes.string.isRequired,
   onParametersChanged: PropTypes.func.isRequired,
   filters: PropTypes.arrayOf(PropTypes.object).isRequired,
-  filtersComponents: PropTypes.func.isRequired
+  filtersComponents: PropTypes.func.isRequired,
+  results: PropTypes.arrayOf(PropTypes.object),
+  resultComponents: PropTypes.func,
+  decodeItem: PropTypes.func,
+  labels: PropTypes.object
 }
 
 Search.defaultProps = {
   title: 'Euler Search',
   filters: [],
-  filtersComponents: Filters
+  filtersComponents: Filters,
+  resultComponents: Results,
+  decodeItem: _decodeItem,
+  results: null,
+  labels: defaultLabels
 }
 export default withStyles(styles)(Search)
