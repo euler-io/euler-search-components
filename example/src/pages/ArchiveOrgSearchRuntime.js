@@ -24,6 +24,9 @@ const useStore = create((set) => ({
     }))
   },
   searchArchiveOrg: (parameters) => {
+    set((state) => ({
+      loading: true
+    }))
     searchArchiveOrg(parameters)
       .then((response) => {
         const results = response.data.response.docs
@@ -79,7 +82,7 @@ const ArchiveOrgSearchRuntime = (props) => {
       }
     },
     parameters,
-    ['search', 'mediaType', 'page', 'rows', 'date']
+    config.fields
   )
 
   return (
@@ -87,6 +90,9 @@ const ArchiveOrgSearchRuntime = (props) => {
       {...config}
       results={results}
       total={total}
+      took={took}
+      query={query}
+      loading={loading}
       parameters={parameters}
       onParametersChanged={handleParametersChanged}
       decodeItem={(i) => {

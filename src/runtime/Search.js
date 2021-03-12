@@ -5,7 +5,9 @@ import PropTypes from 'prop-types'
 import Filters from './Filters'
 import Results from './Results'
 import ResultsList from '../results/ResultsList'
+import ResultStatistics from '../results/ResultStatistics'
 import ResultsPagination from '../results/ResultsPagination'
+import LoadingOverlay from 'react-loading-overlay'
 
 const styles = (theme) => ({
   searchFilters: {
@@ -37,7 +39,10 @@ const Search = (props) => {
     results,
     labels,
     decodeItem,
-    total
+    total,
+    took,
+    query,
+    loading
   } = props
   const FiltersComponents = filtersComponents
   const componentLabels = { ...defaultLabels, ...labels }
@@ -61,32 +66,41 @@ const Search = (props) => {
         })}
         <div className={classes.searchResults}>
           {results !== null && results !== undefined ? (
-            <React.Fragment>
-              <ResultsPagination
-                count={total}
-                parameters={parameters}
-                onParametersChanged={onParametersChanged}
-                rowsPerPageParameter='rows'
-                position='right'
-              />
-              <ResultsList
-                decodeItem={decodeItem}
-                resultComponents={resultComponents}
-                results={results}
-              />
-              <ResultsPagination
-                count={total}
-                parameters={parameters}
-                onParametersChanged={onParametersChanged}
-                rowsPerPageParameter='rows'
-                position='center'
-              />
-            </React.Fragment>
+            <LoadingOverlay active={loading !== null && loading} spinner={true}>
+              <React.Fragment>
+                {query !== null && took !== null && (
+                  <ResultStatistics query={query} total={total} took={took} />
+                )}
+                {total !== null && (
+                  <ResultsPagination
+                    count={total}
+                    parameters={parameters}
+                    onParametersChanged={onParametersChanged}
+                    rowsPerPageParameter='rows'
+                    position='right'
+                  />
+                )}
+                <ResultsList
+                  decodeItem={decodeItem}
+                  resultComponents={resultComponents}
+                  results={results}
+                />
+                {total !== null && (
+                  <ResultsPagination
+                    count={total}
+                    parameters={parameters}
+                    onParametersChanged={onParametersChanged}
+                    rowsPerPageParameter='rows'
+                    position='center'
+                  />
+                )}
+              </React.Fragment>
+            </LoadingOverlay>
           ) : (
-              <Typography color='textSecondary'>
-                {componentLabels.noResults}
-              </Typography>
-            )}
+            <Typography color='textSecondary'>
+              {componentLabels.noResults}
+            </Typography>
+          )}
         </div>
       </div>
     </div>
@@ -103,7 +117,10 @@ Search.propTypes = {
   resultComponents: PropTypes.func,
   decodeItem: PropTypes.func,
   labels: PropTypes.object,
-  total: PropTypes.number
+  total: PropTypes.number,
+  took: PropTypes.number,
+  query: PropTypes.string,
+  loading: PropTypes.bool
 }
 
 Search.defaultProps = {
@@ -115,6 +132,9 @@ Search.defaultProps = {
   decodeItem: _decodeItem,
   results: null,
   labels: defaultLabels,
-  total: 0
+  total: null,
+  took: null,
+  query: null,
+  loading: null
 }
 export default withStyles(styles)(Search)
