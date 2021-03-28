@@ -27,20 +27,22 @@ const getLabel = (value, options) => {
   }
 }
 
-const useParametersEffect = (fn, parameters, arr) => {
-  useEffect(
-    fn,
-    arr.map((p) => {
-      const v = parameters[p]
-      if (Array.isArray(v)) {
-        return v.join(',')
-      } else if (v === null || v === undefined) {
-        return ''
-      } else {
-        return v
-      }
-    })
-  )
+const useParametersEffect = (fn, parameters, arr, asString = false) => {
+  let effectArr = arr.map((p) => {
+    const v = parameters[p]
+    if (Array.isArray(v)) {
+      return v.join(',')
+    } else if (v === null || v === undefined) {
+      return ''
+    } else {
+      return v
+    }
+  })
+  if (asString) {
+    effectArr = [effectArr.reduce((s, p) => `${s},${p}`, '')]
+  }
+
+  useEffect(fn, effectArr)
 }
 
 const toArray = (values) => {
