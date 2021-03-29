@@ -204,8 +204,10 @@ const ArchiveOrgSearch = (props) => {
                 decodeItem={(i) => {
                   return {
                     key: i.identifier,
-                    title: i.title,
-                    description: i.description ? i.description : '',
+                    title: i.title.replaceAll(query, `<em>${query}</em>`),
+                    description: i.description
+                      ? i.description.replaceAll(query, `<em>${query}</em>`)
+                      : '',
                     thumbnail: `https://archive.org/services/img/${i.identifier}`,
                     link: `https://archive.org/details/${i.identifier}`
                   }

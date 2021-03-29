@@ -2,6 +2,7 @@ import React from 'react'
 import { Paper, Link, Typography, colors } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import HighlightedText from './HighlightedText'
 
 const styles = (theme) => ({
   result: {
@@ -59,7 +60,7 @@ const LinkResult = ({ to, children, ...rest }) => {
 const SimpleText = ({ text, ...rest }) => {
   return (
     <Typography {...rest} component='div'>
-      <p>{text}</p>
+      <HighlightedText component="p">{text}</HighlightedText>
     </Typography>
   )
 }
@@ -97,7 +98,7 @@ const SimpleResult = (props) => {
         )}
         <div>
           <Typography className={classes.title} component='div'>
-            <p>{title}</p>
+            <HighlightedText component="p">{title}</HighlightedText>
           </Typography>
           <Typography className={classes.link} component='div'>
             <p>{link}</p>
@@ -110,7 +111,7 @@ const SimpleResult = (props) => {
 }
 
 SimpleResult.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   description: PropTypes.string,
   thumbnail: PropTypes.string,
   thumbnailText: PropTypes.string,
