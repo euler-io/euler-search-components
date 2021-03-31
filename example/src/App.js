@@ -8,6 +8,9 @@ import ResultsListDemo from './pages/ResultsListDemo'
 import AppMenu from './components/AppMenu'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
+import TextDetailPage from './pages/TextDetailPage'
+import MetadataDetailPage from './pages/MetadataDetailPage'
+import ImageDetailPage from './pages/ImageDetailPage'
 
 const App = () => {
   return (
@@ -17,6 +20,15 @@ const App = () => {
           <Switch>
             <Route exact path='/archiveorg'>
               <ArchiveOrgSearch />
+            </Route>
+            <Route exact path='/detail/text'>
+              <TextDetailPage />
+            </Route>
+            <Route exact path='/detail/metadata'>
+              <MetadataDetailPage />
+            </Route>
+            <Route exact path='/detail/image'>
+              <ImageDetailPage />
             </Route>
             <Route exact path='/archiveorgruntime'>
               <ArchiveOrgSearchRuntime />

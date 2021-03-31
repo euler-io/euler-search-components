@@ -11,6 +11,9 @@ import ResultsList from './results/ResultsList'
 import ResultStatistics from './results/ResultStatistics'
 import ResultsPagination from './results/ResultsPagination'
 import Search from './runtime/Search'
+import TextDetail from './detail/TextDetail'
+import MetadataDetail from './detail/MetadataDetail'
+import ImageDetail from './detail/ImageDetail'
 
 export {
   AppLayout,
@@ -26,5 +29,8 @@ export {
   ResultsList,
   ResultStatistics,
   ResultsPagination,
-  Search
+  Search,
+  TextDetail,
+  MetadataDetail,
+  ImageDetail
 }
