@@ -10,6 +10,8 @@ import { useParametersEffect, getValues, toArray } from './utilities'
 import ResultsList from './results/ResultsList'
 import ResultStatistics from './results/ResultStatistics'
 import ResultsPagination from './results/ResultsPagination'
+import HighlightedText from './results/HighlightedText'
+import SimpleResult from './results/SimpleResult'
 import Search from './runtime/Search'
 import TextDetail from './detail/TextDetail'
 import MetadataDetail from './detail/MetadataDetail'
@@ -29,6 +31,8 @@ export {
   ResultsList,
   ResultStatistics,
   ResultsPagination,
+  HighlightedText,
+  SimpleResult,
   Search,
   TextDetail,
   MetadataDetail,

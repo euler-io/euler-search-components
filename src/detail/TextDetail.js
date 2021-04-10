@@ -6,6 +6,8 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 
 const styles = (theme) => ({
   fragments: {
+    margin: theme.spacing(2, 2),
+    padding: theme.spacing(2, 2),
     '& *': {
       marginTop: 0,
       marginBottom: 0
@@ -17,21 +19,21 @@ const TextComponent = ({ children }) => {
   return <HighlightedText component='p'>{children}</HighlightedText>
 }
 
-const defaultTextDecode = (text) => {
-  return text
+const defaultFragmentDecode = (frag) => {
+  return frag
 }
 
 const TextDetail = ({
   classes,
   component,
-  textDecode,
+  fragmentDecode,
   fragments,
   hasMoreFragments,
   onLoadMore
 }) => {
   const Component = component
   return (
-    <div>
+    <Paper>
       <div className={classes.fragments}>
         <InfiniteScroll
           next={onLoadMore}
@@ -39,28 +41,26 @@ const TextDetail = ({
           hasMore={hasMoreFragments}
         >
           {fragments.map((frag) => {
-            const text = textDecode(frag.text)
-            return <Component key={frag.id}>{text}</Component>
+            frag = fragmentDecode(frag)
+            return <Component key={frag.id}>{frag.text}</Component>
           })}
         </InfiniteScroll>
       </div>
-    </div>
+    </Paper>
   )
 }
 
 TextDetail.propTypes = {
   component: PropTypes.elementType,
-  textDecode: PropTypes.func,
-  fragments: PropTypes.arrayOf(
-    PropTypes.shape({ id: PropTypes.any, text: PropTypes.string })
-  ),
+  fragmentDecode: PropTypes.func,
+  fragments: PropTypes.arrayOf(PropTypes.object),
   hasMoreFragments: PropTypes.bool,
   onLoadMore: PropTypes.func.isRequired
 }
 
 TextDetail.defaultProps = {
   component: TextComponent,
-  textDecode: defaultTextDecode,
+  fragmentDecode: defaultFragmentDecode,
   fragments: [],
   hasMoreFragments: false
 }
