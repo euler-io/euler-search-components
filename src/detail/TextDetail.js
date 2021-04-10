@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, Paper } from '@material-ui/core'
 import PropTypes from 'prop-types'
 import HighlightedText from '../results/HighlightedText'
 import InfiniteScroll from 'react-infinite-scroll-component'

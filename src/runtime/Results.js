@@ -11,7 +11,7 @@ const NotFoundResult = (props) => {
 
 export default (result) => {
   const { type } = result
-  if (type !== undefined) {
+  if (type == undefined) {
     // type not defined
     return SimpleResult
   } else if (typeof Results[type] !== 'undefined') {
