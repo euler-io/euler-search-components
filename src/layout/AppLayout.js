@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const AppLayout = (props) => {
+const AppLayout = ({ title, menu, centerMenu, leftMenu, footer, children }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
   const toggleDrawer = () => {
@@ -118,8 +118,10 @@ const AppLayout = (props) => {
             noWrap
             className={classes.title}
           >
-            {props.title}
+            {title}
           </Typography>
+          {centerMenu !== undefined && centerMenu}
+          {leftMenu !== undefined && leftMenu}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -135,14 +137,14 @@ const AppLayout = (props) => {
           </IconButton>
         </div>
         <Divider />
-        {props.menu}
+        {menu}
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth='xl' className={classes.container}>
-          {props.children}
+          {children}
         </Container>
-        <Box pt={4}>{props.footer !== undefined && props.footer}</Box>
+        <Box pt={4}>{footer !== undefined && footer}</Box>
       </main>
     </div>
   )
@@ -150,6 +152,8 @@ const AppLayout = (props) => {
 
 AppLayout.propTypes = {
   menu: PropTypes.element.isRequired,
+  leftMenu: PropTypes.element,
+  centerMenu: PropTypes.element,
   footer: PropTypes.element,
   title: PropTypes.string
 }

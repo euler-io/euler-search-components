@@ -6,6 +6,8 @@ import ArchiveOrgSearch from './pages/ArchiveOrgSearch'
 import ArchiveOrgSearchRuntime from './pages/ArchiveOrgSearchRuntime'
 import ResultsListDemo from './pages/ResultsListDemo'
 import AppMenu from './components/AppMenu'
+import AuthMenu from './components/AuthMenu'
+import SearchMenu from './components/SearchMenu'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 import TextDetailPage from './pages/TextDetailPage'
@@ -16,7 +18,12 @@ const App = () => {
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <Router>
-        <AppLayout title='Euler Search Components' menu={<AppMenu />}>
+        <AppLayout
+          title='Euler Search Components'
+          menu={<AppMenu />}
+          centerMenu={<SearchMenu />}
+          leftMenu={<AuthMenu />}
+        >
           <Switch>
             <Route exact path='/archiveorg'>
               <ArchiveOrgSearch />
