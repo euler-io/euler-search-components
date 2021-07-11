@@ -30,7 +30,7 @@ const FiltersPopoverRuntime = (props) => {
 
 FiltersPopoverRuntime.propTypes = {
   onParametersChanged: PropTypes.func.isRequired,
-  parameters: PropTypes.arrayOf(PropTypes.object),
+  parameters: PropTypes.object,
   filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   filtersComponents: PropTypes.func.isRequired
 }

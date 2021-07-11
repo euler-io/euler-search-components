@@ -2,6 +2,11 @@ import React from 'react'
 import { IconButton, Menu, MenuItem } from '@material-ui/core'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 
+const menuAnchor = {
+  vertical: 'top',
+  horizontal: 'right'
+}
+
 const AuthMenu = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
@@ -26,15 +31,9 @@ const AuthMenu = (props) => {
       <Menu
         id='menu-appbar'
         anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
+        anchorOrigin={menuAnchor}
         keepMounted
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
+        transformOrigin={menuAnchor}
         open={open}
         onClose={handleClose}
       >

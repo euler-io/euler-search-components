@@ -37,6 +37,7 @@ const Search = (props) => {
     onParametersChanged,
     resultComponents,
     results,
+    modeComponent,
     labels,
     decodeItem,
     total,
@@ -45,6 +46,7 @@ const Search = (props) => {
     loading
   } = props
   const FiltersComponents = filtersComponents
+  const ModeComponent = modeComponent
   const componentLabels = { ...defaultLabels, ...labels }
   return (
     <div>
@@ -80,7 +82,7 @@ const Search = (props) => {
                     position='right'
                   />
                 )}
-                <ResultsList
+                <ModeComponent
                   decodeItem={decodeItem}
                   resultComponents={resultComponents}
                   results={results}
@@ -115,6 +117,7 @@ Search.propTypes = {
   filtersComponents: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object),
   resultComponents: PropTypes.func,
+  modeComponent: PropTypes.element.isRequired,
   decodeItem: PropTypes.func,
   labels: PropTypes.object,
   total: PropTypes.number,
@@ -129,6 +132,7 @@ Search.defaultProps = {
   parameters: {},
   filtersComponents: Filters,
   resultComponents: Results,
+  modeComponent: ResultsList,
   decodeItem: _decodeItem,
   results: null,
   labels: defaultLabels,

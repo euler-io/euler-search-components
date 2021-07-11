@@ -2,17 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import HighlightedText from '../results/HighlightedText'
 import {
-  withStyles,
+  makeStyles,
   List,
   ListItem,
   ListItemText,
   Accordion,
   AccordionSummary,
-  AccordionDetails
+  AccordionDetails,
+  Paper
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
-const styles = (theme) => ({})
+const useStyles = makeStyles((theme) => ({
+  metadata: {
+    margin: theme.spacing(2, 2),
+    padding: theme.spacing(2, 2)
+  }
+}))
 
 const ValueComponent = ({ children }) => {
   return <HighlightedText component='span'>{children}</HighlightedText>
@@ -27,26 +33,30 @@ const defaultSectionDecode = (s) => {
 }
 
 const MetadataList = ({ metadata, metadataDecode }) => {
+  const classes = useStyles()
   return (
-    <List>
-      {metadata.map((md, idx) => {
-        md = metadataDecode(md)
-        const id = `${md.name}-${idx}`
-        return (
-          <ListItem key={id}>
-            <ListItemText
-              primary={md.name}
-              secondary={<ValueComponent>{md.value}</ValueComponent>}
-            />
-          </ListItem>
-        )
-      })}
-    </List>
+    <Paper>
+      <div className={classes.metadata}>
+        <List>
+          {metadata.map((md, idx) => {
+            md = metadataDecode(md)
+            const id = `${md.name}-${idx}`
+            return (
+              <ListItem key={id}>
+                <ListItemText
+                  primary={md.name}
+                  secondary={<ValueComponent>{md.value}</ValueComponent>}
+                />
+              </ListItem>
+            )
+          })}
+        </List>
+      </div>
+    </Paper>
   )
 }
 
 const MetadataDetail = ({
-  classes,
   metadata,
   sections,
   metadataDecode,
@@ -104,4 +114,4 @@ MetadataDetail.defaultProps = {
   sectionDecode: defaultSectionDecode
 }
 
-export default withStyles(styles)(MetadataDetail)
+export default MetadataDetail
