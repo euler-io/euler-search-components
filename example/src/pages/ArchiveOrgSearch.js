@@ -4,6 +4,7 @@ import {
   SearchBarFilter,
   OptionsFilter,
   DateRangeFilter,
+  SortFilter,
   QueryState,
   ResultsList,
   ResultStatistics,
@@ -162,6 +163,14 @@ const ArchiveOrgSearch = (props) => {
           onParametersChanged={(newParameters) => {
             handleParametersChanged({ ...newParameters, ...parameters })
           }}
+        />
+        <SortFilter
+          values={[{ value: 'created_datetime', label: 'Created Date' }]}
+          onParametersChanged={(newParameters) => {
+            handleParametersChanged({ ...parameters, ...newParameters })
+          }}
+          parameters={parameters}
+          defaultLabel='Relevance'
         />
         <div>
           <OptionsFilter

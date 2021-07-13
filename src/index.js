@@ -5,6 +5,7 @@ import OptionsFilter from './filters/OptionsFilter'
 import DateRangeFilter, {
   parseDateRangeParameters
 } from './filters/DateRangeFilter'
+import SortFilter from './filters/SortFilter'
 import QueryState from './utilities/QueryState'
 import { useParametersEffect, getValues, toArray } from './utilities'
 import ResultsList from './results/ResultsList'
@@ -13,6 +14,7 @@ import ResultsPagination from './results/ResultsPagination'
 import HighlightedText from './results/HighlightedText'
 import SimpleResult from './results/SimpleResult'
 import Search from './runtime/Search'
+import FiltersPopoverRuntime from './runtime/FiltersPopoverRuntime'
 import TextDetail from './detail/TextDetail'
 import MetadataDetail from './detail/MetadataDetail'
 import ImageDetail from './detail/ImageDetail'
@@ -22,6 +24,7 @@ export {
   SearchBarFilter,
   OptionsFilter,
   DateRangeFilter,
+  SortFilter,
   FiltersPopover,
   QueryState,
   useParametersEffect,
@@ -34,6 +37,7 @@ export {
   HighlightedText,
   SimpleResult,
   Search,
+  FiltersPopoverRuntime,
   TextDetail,
   MetadataDetail,
   ImageDetail

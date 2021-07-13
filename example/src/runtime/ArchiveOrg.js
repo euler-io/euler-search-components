@@ -33,6 +33,11 @@ const search = {
           name: 'Date'
         }
       ]
+    },
+    {
+      type: 'sort',
+      field: 'sort_by',
+      values: [{ value: 'created_datetime', label: 'Created Date' }]
     }
   ]
 }
