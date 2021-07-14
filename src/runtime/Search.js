@@ -4,10 +4,10 @@ import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import Filters from './Filters'
 import Results from './Results'
-import ResultsList from '../results/ResultsList'
 import ResultStatistics from '../results/ResultStatistics'
 import ResultsPagination from '../results/ResultsPagination'
 import LoadingOverlay from 'react-loading-overlay'
+import ResultsModes from './ResultsModes'
 
 const styles = (theme) => ({
   searchFilters: {
@@ -37,16 +37,17 @@ const Search = (props) => {
     onParametersChanged,
     resultComponents,
     results,
-    modeComponent,
+    mode,
     labels,
     decodeItem,
     total,
     took,
     query,
-    loading
+    loading,
+    modeComponents
   } = props
   const FiltersComponents = filtersComponents
-  const ModeComponent = modeComponent
+  const ModeComponent = modeComponents(mode)
   const componentLabels = { ...defaultLabels, ...labels }
   return (
     <div>
@@ -86,6 +87,8 @@ const Search = (props) => {
                   decodeItem={decodeItem}
                   resultComponents={resultComponents}
                   results={results}
+                  modeComponents={modeComponents}
+                  {...mode}
                 />
                 {total !== null && (
                   <ResultsPagination
@@ -117,13 +120,14 @@ Search.propTypes = {
   filtersComponents: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object),
   resultComponents: PropTypes.func,
-  modeComponent: PropTypes.elementType.isRequired,
+  modeComponents: PropTypes.func.isRequired,
   decodeItem: PropTypes.func,
   labels: PropTypes.object,
   total: PropTypes.number,
   took: PropTypes.number,
   query: PropTypes.string,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  mode: PropTypes.object
 }
 
 Search.defaultProps = {
@@ -132,13 +136,14 @@ Search.defaultProps = {
   parameters: {},
   filtersComponents: Filters,
   resultComponents: Results,
-  modeComponent: ResultsList,
+  modeComponents: ResultsModes,
   decodeItem: _decodeItem,
   results: null,
   labels: defaultLabels,
   total: null,
   took: null,
   query: null,
-  loading: null
+  loading: null,
+  mode: { type: 'list' }
 }
 export default withStyles(styles)(Search)
