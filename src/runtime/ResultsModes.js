@@ -10,9 +10,9 @@ const NotFoundResultMode = ({ type }) => {
 }
 
 export { ResultsModes }
-export default (result) => {
-  const { type } = result
-  if (type == undefined) {
+export default (mode) => {
+  const { type } = mode
+  if (type === undefined) {
     // type not defined
     return ResultsList
   } else if (typeof ResultsModes[type] !== 'undefined') {

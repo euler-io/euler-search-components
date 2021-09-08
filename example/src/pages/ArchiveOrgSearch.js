@@ -3,8 +3,10 @@ import { Breadcrumbs, Typography } from '@material-ui/core'
 import {
   SearchBarFilter,
   OptionsFilter,
+  AutoCompleteOptionsFilter,
   DateRangeFilter,
   SortFilter,
+  BooleanFilter,
   QueryState,
   ResultsList,
   ResultStatistics,
@@ -158,7 +160,8 @@ const ArchiveOrgSearch = (props) => {
         <FiltersPopover
           filters={[
             { field: 'mediaType', name: 'Media Type' },
-            { field: 'date', name: 'Date' }
+            { field: 'date', name: 'Date' },
+            { field: 'boolean', name: 'Boolean' }
           ]}
           onParametersChanged={(newParameters) => {
             handleParametersChanged({ ...newParameters, ...parameters })
@@ -174,6 +177,27 @@ const ArchiveOrgSearch = (props) => {
         />
         <div>
           <OptionsFilter
+            name='Media Type'
+            field='mediaType'
+            parameters={parameters}
+            onParametersChanged={handleParametersChanged}
+            options={[
+              { value: 'account', label: 'Account' },
+              { value: 'audio', label: 'Audio' },
+              { value: 'data', label: 'Data' },
+              { value: 'image', label: 'Image' },
+              { value: 'movies', label: 'Movies' },
+              { value: 'text', label: 'Texts' },
+              { value: 'web', label: 'Web' }
+            ]}
+          />
+          <BooleanFilter
+            name='Boolean'
+            field='boolean'
+            parameters={parameters}
+            onParametersChanged={handleParametersChanged}
+          />
+          <AutoCompleteOptionsFilter
             name='Media Type'
             field='mediaType'
             parameters={parameters}

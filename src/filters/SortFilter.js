@@ -1,5 +1,4 @@
-import React, { useState, memo } from 'react'
-;<Divider />
+import React, { useState } from 'react'
 import {
   makeStyles,
   Button,
@@ -9,7 +8,6 @@ import {
   DialogActions,
   Select,
   MenuItem,
-  Divider,
   InputLabel,
   FormControl,
   IconButton

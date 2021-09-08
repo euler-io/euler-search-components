@@ -6,6 +6,8 @@ import DateRangeFilter, {
   parseDateRangeParameters
 } from './filters/DateRangeFilter'
 import SortFilter from './filters/SortFilter'
+import BooleanFilter from './filters/BooleanFilter'
+import AutoCompleteOptionsFilter from './filters/AutoCompleteOptionsFilter'
 import QueryState from './utilities/QueryState'
 import { useParametersEffect, getValues, toArray } from './utilities'
 import ResultsList from './results/ResultsList'
@@ -25,6 +27,8 @@ export {
   OptionsFilter,
   DateRangeFilter,
   SortFilter,
+  BooleanFilter,
+  AutoCompleteOptionsFilter,
   FiltersPopover,
   QueryState,
   useParametersEffect,

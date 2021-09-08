@@ -157,15 +157,15 @@ OptionsFilter.propTypes = {
   field: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.object),
   onParametersChanged: PropTypes.func.isRequired,
-  getValueIndicator: PropTypes.func,
   parameters: PropTypes.object,
-  labels: PropTypes.object
+  labels: PropTypes.object,
+  getValueIndicator: PropTypes.func
 }
 
 OptionsFilter.defaultProps = {
   parameters: {},
-  getValueIndicator: _getValueIndicator,
   options: [],
+  getValueIndicator: _getValueIndicator,
   labels: defaultLabels
 }
 

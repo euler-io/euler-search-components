@@ -34,6 +34,11 @@ const search = {
           type: 'date-range-dialog',
           field: 'date',
           name: 'Date'
+        },
+        {
+          type: 'boolean',
+          field: 'boolean',
+          name: 'Boolean Filter'
         }
       ]
     },
