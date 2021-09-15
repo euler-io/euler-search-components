@@ -7,6 +7,7 @@ import {
   DateRangeFilter,
   SortFilter,
   BooleanFilter,
+  RangeFilter,
   QueryState,
   ResultsList,
   ResultStatistics,
@@ -161,7 +162,8 @@ const ArchiveOrgSearch = (props) => {
           filters={[
             { field: 'mediaType', name: 'Media Type' },
             { field: 'date', name: 'Date' },
-            { field: 'boolean', name: 'Boolean' }
+            { field: 'boolean', name: 'Boolean' },
+            { field: 'size', name: 'Size' }
           ]}
           onParametersChanged={(newParameters) => {
             handleParametersChanged({ ...newParameters, ...parameters })
@@ -217,6 +219,34 @@ const ArchiveOrgSearch = (props) => {
             field='date'
             parameters={parameters}
             onParametersChanged={handleParametersChanged}
+          />
+          <RangeFilter
+            name='Size'
+            field='size'
+            parameters={parameters}
+            onParametersChanged={handleParametersChanged}
+            unlimitedBoundaries={true}
+            min={0}
+            max={8000000}
+            step={1000}
+            presetsOnly={true}
+            presets={[
+              {
+                id: 'small',
+                label: 'Small',
+                value: [0, 50000]
+              },
+              {
+                id: 'medium',
+                label: 'Medium',
+                value: [50000, 350000]
+              },
+              {
+                id: 'big',
+                label: 'Big',
+                value: [350000, 8000000]
+              }
+            ]}
           />
         </div>
       </div>
