@@ -5,6 +5,7 @@ import OptionsFilter from '../filters/OptionsFilter'
 import FiltersPopoverRuntime from './FiltersPopoverRuntime'
 import SortFilter from '../filters/SortFilter'
 import BooleanFilter from '../filters/BooleanFilter'
+import RangeFilter from '../filters/RangeFilter'
 import AutoCompleteOptionsFilter from '../filters/AutoCompleteOptionsFilter'
 
 const Filters = {
@@ -14,7 +15,8 @@ const Filters = {
   'autocomplete-options-dialog': AutoCompleteOptionsFilter,
   'date-range-dialog': DateRangeFilter,
   sort: SortFilter,
-  boolean: BooleanFilter
+  boolean: BooleanFilter,
+  range: RangeFilter
 }
 
 const NotFoundFilter = (props) => {

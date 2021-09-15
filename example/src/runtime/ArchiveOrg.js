@@ -39,6 +39,33 @@ const search = {
           type: 'boolean',
           field: 'boolean',
           name: 'Boolean Filter'
+        },
+        {
+          type: 'range',
+          field: 'size',
+          name: 'Range Filter',
+          unlimitedBoundaries: true,
+          min:0,
+          max:8000000,
+          step:1000,
+          presetsOnly:true,
+          presets:[
+            {
+              id: 'small',
+              label: 'Small',
+              value: [0, 50000]
+            },
+            {
+              id: 'medium',
+              label: 'Medium',
+              value: [50000, 350000]
+            },
+            {
+              id: 'big',
+              label: 'Big',
+              value: [350000, 8000000]
+            }
+          ]
         }
       ]
     },
